@@ -1,4 +1,4 @@
 public interface ICubeSpawner
 {
-    void SpawnCube();
+  public void Spawn();
 }

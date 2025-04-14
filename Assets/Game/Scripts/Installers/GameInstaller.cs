@@ -1,16 +1,24 @@
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using Zenject;
 
 public class GameInstaller : MonoInstaller
 {
     [SerializeField] private GameObject cubePrefab;
+    [SerializeField] private Transform spawnPoint;
 
     public override void InstallBindings()
     {
-        Container
-            .Bind<ICubeSpawner>()
+        SignalBusInstaller.Install(Container);
+        Container.DeclareSignal<CubeSpawnedSignal>();
+
+        // Spawner
+        Container.Bind<ICubeSpawner>()
             .To<CubeSpawner>()
             .AsSingle()
-            .WithArguments(cubePrefab);
+            .WithArguments(cubePrefab, spawnPoint);
+
+        // Другие зависимости
+        Container.Bind<ScoreManager>().AsSingle();
     }
 }

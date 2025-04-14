@@ -16,6 +16,6 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        spawnButton.onClick.AddListener(() => _spawner.SpawnCube());
+        spawnButton.onClick.AddListener(() => _spawner.Spawn());
     }
 }
