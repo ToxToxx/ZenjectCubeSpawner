@@ -17,6 +17,6 @@ public class CubeSpawner : ICubeSpawner
     public void Spawn()
     {
         GameObject cube = Object.Instantiate(_cubePrefab, _spawnPoint.position, Quaternion.identity);
-        _signalBus.Fire(new CubeSpawnedSignal { CubeObject = cube, Position = cube.transform.position });
+        _signalBus.Fire(new CubeSpawnedSignal(cube, cube.transform.position));
     }
 }

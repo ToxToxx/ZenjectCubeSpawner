@@ -3,13 +3,28 @@ using Zenject;
 
 public class ScoreManager : MonoBehaviour
 {
-    private int _score;
+    public int CurrentScore { get; private set; }
+    private SignalBus _signalBus;
 
     [Inject]
-    public void OnCubeSpawned(CubeSpawnedSignal signal)
+    public void Construct(SignalBus signalBus)
     {
-        // Увеличиваем счёт каждый раз, когда куб спавнится
-        _score++;
-        Debug.Log($"Cube spawned at {signal.Position}. Current score: {_score}");
+        _signalBus = signalBus;
+    }
+
+    private void OnEnable()
+    {
+        _signalBus.Subscribe<CubeSpawnedSignal>(OnCubeSpawned);
+    }
+
+    private void OnDisable()
+    {
+        _signalBus.Unsubscribe<CubeSpawnedSignal>(OnCubeSpawned);
+    }
+
+    private void OnCubeSpawned(CubeSpawnedSignal signal)
+    {
+        CurrentScore++;
+        Debug.Log($"Cube spawned at {signal.Position}. Current score: {CurrentScore}");
     }
 }

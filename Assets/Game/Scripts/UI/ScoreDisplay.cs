@@ -1,14 +1,19 @@
 using UnityEngine;
+using TMPro;
 using Zenject;
 
 public class ScoreDisplay : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI scoreText;
+
     private SignalBus _signalBus;
+    private ScoreManager _scoreManager;
 
     [Inject]
-    public void Construct(SignalBus signalBus)
+    public void Construct(SignalBus signalBus, ScoreManager scoreManager)
     {
         _signalBus = signalBus;
+        _scoreManager = scoreManager;
     }
 
     private void OnEnable()
@@ -23,6 +28,11 @@ public class ScoreDisplay : MonoBehaviour
 
     private void OnCubeSpawned(CubeSpawnedSignal signal)
     {
-        Debug.Log("Куб заспавнился на позиции: " + signal.Position);
+        UpdateScoreText();
+    }
+
+    private void UpdateScoreText()
+    {
+        scoreText.text = "Score: " + _scoreManager.CurrentScore;
     }
 }

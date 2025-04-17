@@ -19,6 +19,7 @@ public class GameInstaller : MonoInstaller
             .WithArguments(cubePrefab, spawnPoint);
 
         // Другие зависимости
-        Container.Bind<ScoreManager>().AsSingle();
+        Container.BindInterfacesAndSelfTo<ScoreManager>().FromComponentInHierarchy().AsSingle();
+        Container.BindInterfacesAndSelfTo<ScoreDisplay>().FromComponentInHierarchy().AsSingle();
     }
 }
